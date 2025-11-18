@@ -1,1 +1,4 @@
 detectvenv/
+best_model.keras
+*.h5
+*.keras
