@@ -3,3 +3,4 @@ best_model.keras
 *.h5
 *.keras
 breast_cancer_public_data/
+val_images/

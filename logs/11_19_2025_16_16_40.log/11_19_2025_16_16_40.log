@@ -1,0 +1,7 @@
+[ 2025-11-19 16:16:40,036 ] 28 root - INFO - [DataIngestion] Loading dataset from: {self.folkder_path}
+[ 2025-11-19 16:16:40,036 ] 40 root - INFO - [DataIngestion] Loading class: Negative
+[ 2025-11-19 16:16:40,163 ] 40 root - INFO - [DataIngestion] Loading class: Cancer
+[ 2025-11-19 16:16:40,330 ] 59 root - INFO - [DataIngestion] Total images loaded: 820
+[ 2025-11-19 16:16:40,330 ] 68 root - INFO - [DataIngestion] Shuffling dataset
+[ 2025-11-19 16:16:40,359 ] 80 root - INFO - [DataIngestion] Splitting dataset
+[ 2025-11-19 16:16:40,392 ] 86 root - INFO - [DataIngestion] Split completed
