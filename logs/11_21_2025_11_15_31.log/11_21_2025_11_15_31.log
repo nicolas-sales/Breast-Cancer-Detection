@@ -1,0 +1,16 @@
+[ 2025-11-21 11:15:36,817 ] 14 root - INFO - Starting Data Transformation Pipeline
+[ 2025-11-21 11:15:36,817 ] 28 root - INFO - [DataIngestion] Loading dataset from: {self.folder_path}
+[ 2025-11-21 11:15:36,817 ] 40 root - INFO - [DataIngestion] Loading class: Negative
+[ 2025-11-21 11:15:37,101 ] 40 root - INFO - [DataIngestion] Loading class: Cancer
+[ 2025-11-21 11:15:37,426 ] 59 root - INFO - [DataIngestion] Total images loaded: 820
+[ 2025-11-21 11:15:37,426 ] 68 root - INFO - [DataIngestion] Shuffling dataset
+[ 2025-11-21 11:15:37,488 ] 80 root - INFO - [DataIngestion] Splitting dataset
+[ 2025-11-21 11:15:37,542 ] 86 root - INFO - [DataIngestion] Split completed
+[ 2025-11-21 11:15:37,542 ] 24 root - INFO - [DataTransformationPipeline] Data successfully ingested.
+[ 2025-11-21 11:15:37,542 ] 25 root - INFO -  Train: (656, 224, 224, 3)
+[ 2025-11-21 11:15:37,542 ] 26 root - INFO -  Val  : (82, 224, 224, 3)
+[ 2025-11-21 11:15:37,542 ] 27 root - INFO -  Test : (82, 224, 224, 3)
+[ 2025-11-21 11:15:37,542 ] 9 root - INFO - DataTransformation initialized
+[ 2025-11-21 11:15:37,542 ] 14 root - INFO - Starting Data Tranformation
+[ 2025-11-21 11:15:37,695 ] 45 root - INFO - Data Transformation completed
+[ 2025-11-21 11:15:37,695 ] 39 root - INFO - Data Transformation completed

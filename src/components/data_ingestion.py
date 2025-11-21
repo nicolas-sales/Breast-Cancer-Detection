@@ -25,7 +25,7 @@ class DataIngestion:
         # Charge les images, les convertit en RGB et les redimensionne
 
         try:
-            logging.info("[DataIngestion] Loading dataset from: {self.folkder_path}")
+            logging.info("[DataIngestion] Loading dataset from: {self.folder_path}")
 
             X = []
             y = []
