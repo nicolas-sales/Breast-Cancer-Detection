@@ -1,8 +1,8 @@
 import sys
 from src.logger import logging
 from src.exception import CustomException
-from src.components.data_ingestion import DataIngestion
 from src.components.data_transformation import DataTransformation
+from src.pipeline.data_ingestion_pipeline import DataIngestionPipeline
 
 
 class DataTransformationPipeline:
@@ -14,12 +14,16 @@ class DataTransformationPipeline:
             logging.info("Starting Data Transformation Pipeline")
 
             # Ingestion
-            ingestion = DataIngestion(folder_path=self.folder_path)
+            ingestion_pipeline = DataIngestionPipeline(folder_path=self.folder_path)
 
-            X,y=ingestion.load_images()
-            X,y=ingestion.shuffle_data(X,y)
+            data = ingestion_pipeline.run()
 
-            X_train,X_val,X_test,y_train,y_val,y_test = ingestion.split_data(X,y)
+            X_train = data["X_train"]
+            X_val   = data["X_val"]
+            X_test  = data["X_test"]
+            y_train = data["y_train"]
+            y_val   = data["y_val"]
+            y_test  = data["y_test"]
 
             logging.info("[DataTransformationPipeline] Data successfully ingested.")
             logging.info(f" Train: {X_train.shape}")
@@ -38,7 +42,7 @@ class DataTransformationPipeline:
 
             logging.info("Data Transformation completed")
 
-            return train_generator,val_generator,X_test,y_test
+            return train_generator,val_generator,X_test,y_test,y_val
         
         except Exception as e:
             raise CustomException(e,sys)
@@ -49,7 +53,7 @@ if __name__ =="__main__":
     folder = "breast_cancer_public_data/data_2"
 
     pipeline=DataTransformationPipeline(folder_path=folder)
-    train_generator,val_generator,X_test,y_test = pipeline.run()
+    train_generator,val_generator,X_test,y_test,y_val = pipeline.run()
 
     print("DataTransformation Pipeline successful")
     print(" Train batch :", train_generator[0][0].shape, train_generator[0][1].shape)

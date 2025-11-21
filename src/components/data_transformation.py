@@ -39,7 +39,7 @@ class DataTransformation:
                 X_val,
                 y_val,
                 batch_size=32,
-                shuffle=True
+                shuffle=False
             )
 
             logging.info("Data Transformation completed")
@@ -63,11 +63,11 @@ if __name__ == "__main__":
 
     # 2. Data Transformation
     transformation = DataTransformation()
-    train_gen, val_gen = transformation.initiate_data_transformation(
+    train_generator, val_generator = transformation.initiate_data_transformation(
         X_train, X_val, y_train, y_val
     )
 
     print("DataTransformation successful")
-    print("Train generator batch shape :", train_gen[0][0].shape)
-    print("Val generator batch shape   :", val_gen[0][0].shape)
+    print("Train generator batch shape :", train_generator[0][0].shape)
+    print("Val generator batch shape   :", val_generator[0][0].shape)
 

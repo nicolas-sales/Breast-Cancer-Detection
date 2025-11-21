@@ -1,0 +1,22 @@
+[ 2025-11-21 16:29:28,426 ] 18 root - INFO - Starting Model Evaluation Pipeline
+[ 2025-11-21 16:29:28,426 ] 14 root - INFO - Starting Data Transformation Pipeline
+[ 2025-11-21 16:29:28,426 ] 12 root - INFO - Starting Data Ingestion Pipeline
+[ 2025-11-21 16:29:28,432 ] 28 root - INFO - [DataIngestion] Loading dataset from: {self.folder_path}
+[ 2025-11-21 16:29:28,432 ] 40 root - INFO - [DataIngestion] Loading class: Negative
+[ 2025-11-21 16:29:28,559 ] 40 root - INFO - [DataIngestion] Loading class: Cancer
+[ 2025-11-21 16:29:28,726 ] 59 root - INFO - [DataIngestion] Total images loaded: 820
+[ 2025-11-21 16:29:28,753 ] 68 root - INFO - [DataIngestion] Shuffling dataset
+[ 2025-11-21 16:29:28,783 ] 80 root - INFO - [DataIngestion] Splitting dataset
+[ 2025-11-21 16:29:28,814 ] 86 root - INFO - [DataIngestion] Split completed
+[ 2025-11-21 16:29:28,816 ] 25 root - INFO - Data Ingestion Pipeline Completed
+[ 2025-11-21 16:29:28,820 ] 28 root - INFO - [DataTransformationPipeline] Data successfully ingested.
+[ 2025-11-21 16:29:28,820 ] 29 root - INFO -  Train: (656, 224, 224, 3)
+[ 2025-11-21 16:29:28,820 ] 30 root - INFO -  Val  : (82, 224, 224, 3)
+[ 2025-11-21 16:29:28,820 ] 31 root - INFO -  Test : (82, 224, 224, 3)
+[ 2025-11-21 16:29:28,820 ] 9 root - INFO - DataTransformation initialized
+[ 2025-11-21 16:29:28,820 ] 14 root - INFO - Starting Data Tranformation
+[ 2025-11-21 16:29:28,897 ] 45 root - INFO - Data Transformation completed
+[ 2025-11-21 16:29:28,897 ] 43 root - INFO - Data Transformation completed
+[ 2025-11-21 16:29:28,897 ] 24 root - INFO - [ModelEvaluationPipeline] Data loaded and transformed
+[ 2025-11-21 16:29:28,897 ] 16 root - INFO - [ModelEvaluation] Loading model from: artifacts/best_model.keras
+[ 2025-11-21 16:29:29,247 ] 30 root - INFO - [ModelEvaluation] Predicting on validation set

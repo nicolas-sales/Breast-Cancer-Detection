@@ -1,0 +1,26 @@
+[ 2025-11-21 19:38:24,722 ] 18 root - INFO - Starting Model Evaluation Pipeline
+[ 2025-11-21 19:38:24,722 ] 14 root - INFO - Starting Data Transformation Pipeline
+[ 2025-11-21 19:38:24,722 ] 12 root - INFO - Starting Data Ingestion Pipeline
+[ 2025-11-21 19:38:24,722 ] 28 root - INFO - [DataIngestion] Loading dataset from: {self.folder_path}
+[ 2025-11-21 19:38:24,722 ] 40 root - INFO - [DataIngestion] Loading class: Negative
+[ 2025-11-21 19:38:24,921 ] 40 root - INFO - [DataIngestion] Loading class: Cancer
+[ 2025-11-21 19:38:25,172 ] 59 root - INFO - [DataIngestion] Total images loaded: 820
+[ 2025-11-21 19:38:25,194 ] 68 root - INFO - [DataIngestion] Shuffling dataset
+[ 2025-11-21 19:38:25,220 ] 80 root - INFO - [DataIngestion] Splitting dataset
+[ 2025-11-21 19:38:25,267 ] 86 root - INFO - [DataIngestion] Split completed
+[ 2025-11-21 19:38:25,267 ] 25 root - INFO - Data Ingestion Pipeline Completed
+[ 2025-11-21 19:38:25,267 ] 28 root - INFO - [DataTransformationPipeline] Data successfully ingested.
+[ 2025-11-21 19:38:25,267 ] 29 root - INFO -  Train: (656, 224, 224, 3)
+[ 2025-11-21 19:38:25,267 ] 30 root - INFO -  Val  : (82, 224, 224, 3)
+[ 2025-11-21 19:38:25,267 ] 31 root - INFO -  Test : (82, 224, 224, 3)
+[ 2025-11-21 19:38:25,267 ] 9 root - INFO - DataTransformation initialized
+[ 2025-11-21 19:38:25,267 ] 14 root - INFO - Starting Data Tranformation
+[ 2025-11-21 19:38:25,398 ] 45 root - INFO - Data Transformation completed
+[ 2025-11-21 19:38:25,398 ] 43 root - INFO - Data Transformation completed
+[ 2025-11-21 19:38:25,398 ] 24 root - INFO - [ModelEvaluationPipeline] Data loaded and transformed
+[ 2025-11-21 19:38:25,398 ] 16 root - INFO - [ModelEvaluation] Loading model from: artifacts/best_model.keras
+[ 2025-11-21 19:38:25,827 ] 30 root - INFO - [ModelEvaluation] Predicting on validation set
+[ 2025-11-21 19:38:26,340 ] 51 root - INFO - [ModelEvaluation] Metrics saved to artifacts/metrics.json
+[ 2025-11-21 19:38:27,420 ] 86 root - INFO - [ModelEvaluation] ROC curve saved: artifacts\roc_curve.png
+[ 2025-11-21 19:38:27,647 ] 106 root - INFO - [ModelEvaluation] Confusion matrix saved: artifacts\confusion_matrix.png
+[ 2025-11-21 19:38:27,647 ] 36 root - INFO - Model Evaluation Pipeline Completed

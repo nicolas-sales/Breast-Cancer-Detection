@@ -4,3 +4,4 @@ best_model.keras
 *.keras
 breast_cancer_public_data/
 val_images/
+artifacts/

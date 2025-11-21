@@ -1,0 +1,11 @@
+[ 2025-11-21 13:38:15,790 ] 14 root - INFO - Starting Data Transformation Pipeline
+[ 2025-11-21 13:38:15,790 ] 12 root - INFO - Starting Data Ingestion Pipeline
+[ 2025-11-21 13:38:15,790 ] 28 root - INFO - [DataIngestion] Loading dataset from: {self.folder_path}
+[ 2025-11-21 13:38:15,790 ] 40 root - INFO - [DataIngestion] Loading class: Negative
+[ 2025-11-21 13:38:15,972 ] 40 root - INFO - [DataIngestion] Loading class: Cancer
+[ 2025-11-21 13:38:16,242 ] 59 root - INFO - [DataIngestion] Total images loaded: 820
+[ 2025-11-21 13:38:16,242 ] 68 root - INFO - [DataIngestion] Shuffling dataset
+[ 2025-11-21 13:38:16,306 ] 80 root - INFO - [DataIngestion] Splitting dataset
+[ 2025-11-21 13:38:16,373 ] 86 root - INFO - [DataIngestion] Split completed
+[ 2025-11-21 13:38:16,375 ] 25 root - INFO - Data Ingestion Pipeline Completed
+[ 2025-11-21 13:38:16,394 ] 21 root - INFO - [DataTransformationPipeline] Data successfully ingested.

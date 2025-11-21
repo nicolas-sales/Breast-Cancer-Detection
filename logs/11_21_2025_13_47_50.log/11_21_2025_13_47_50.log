@@ -1,0 +1,26 @@
+[ 2025-11-21 13:47:59,671 ] 15 root - INFO - Starting Model training pipeline
+[ 2025-11-21 13:47:59,671 ] 14 root - INFO - Starting Data Transformation Pipeline
+[ 2025-11-21 13:47:59,671 ] 12 root - INFO - Starting Data Ingestion Pipeline
+[ 2025-11-21 13:47:59,671 ] 28 root - INFO - [DataIngestion] Loading dataset from: {self.folder_path}
+[ 2025-11-21 13:47:59,671 ] 40 root - INFO - [DataIngestion] Loading class: Negative
+[ 2025-11-21 13:48:00,212 ] 40 root - INFO - [DataIngestion] Loading class: Cancer
+[ 2025-11-21 13:48:01,099 ] 59 root - INFO - [DataIngestion] Total images loaded: 820
+[ 2025-11-21 13:48:01,123 ] 68 root - INFO - [DataIngestion] Shuffling dataset
+[ 2025-11-21 13:48:01,200 ] 80 root - INFO - [DataIngestion] Splitting dataset
+[ 2025-11-21 13:48:01,310 ] 86 root - INFO - [DataIngestion] Split completed
+[ 2025-11-21 13:48:01,310 ] 25 root - INFO - Data Ingestion Pipeline Completed
+[ 2025-11-21 13:48:01,323 ] 28 root - INFO - [DataTransformationPipeline] Data successfully ingested.
+[ 2025-11-21 13:48:01,323 ] 29 root - INFO -  Train: (656, 224, 224, 3)
+[ 2025-11-21 13:48:01,323 ] 30 root - INFO -  Val  : (82, 224, 224, 3)
+[ 2025-11-21 13:48:01,323 ] 31 root - INFO -  Test : (82, 224, 224, 3)
+[ 2025-11-21 13:48:01,323 ] 9 root - INFO - DataTransformation initialized
+[ 2025-11-21 13:48:01,323 ] 14 root - INFO - Starting Data Tranformation
+[ 2025-11-21 13:48:01,610 ] 45 root - INFO - Data Transformation completed
+[ 2025-11-21 13:48:01,610 ] 43 root - INFO - Data Transformation completed
+[ 2025-11-21 13:48:01,610 ] 21 root - INFO - [ModelTrainerPipeline] Data transformation OK
+[ 2025-11-21 13:48:01,610 ] 54 root - INFO - Starting model training
+[ 2025-11-21 13:48:01,610 ] 20 root - INFO - Building CNN model
+[ 2025-11-21 13:48:02,115 ] 46 root - INFO - Model compiled successfully
+[ 2025-11-21 13:54:41,993 ] 66 root - INFO - Model training completed successfully
+[ 2025-11-21 13:54:41,993 ] 27 root - INFO - Model trainer pipeline completed
+[ 2025-11-21 13:54:41,993 ] 28 root - INFO - Best model saved at: artifacts/best_model.keras
