@@ -6,3 +6,7 @@ matplotlib
 tensorflow
 scikit-learn
 ipykernel
+fastapi
+streamlit
+uvicorn
+python-multipart
