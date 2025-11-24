@@ -1,0 +1,52 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environnements
+venv/
+env/
+.venv/
+detectvenv/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# IDE / Editors
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Jupyter
+*.ipynb
+.ipynb_checkpoints/
+
+# Datasets 
+breast_cancer_public_data/
+data/
+data_2/
+dataset/
+test_images/
+val_images/
+
+# Model artifacts
+artifacts/
+
+# Streamlit cache
+.streamlit/
+
+# Images / uploads
+uploads/
+static/
+
+# Local output / temporary files
+temp/
+tmp/

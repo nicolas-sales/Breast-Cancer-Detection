@@ -10,7 +10,7 @@ from src.exception import CustomException
 
 model_path = "artifacts/best_model.keras"
 
-st.set_page_config(page_title="Breast Cancer Detection", layout="centered")
+st.set_page_config(page_title="Breast Cancer Detection", layout="centered") # titre de l’onglet du navigateur
 
 st.title("Breast Cancer Detection from Mammogram")
 st.write("Upload a mammogram image and the model will predict if it shows cancer or not")
