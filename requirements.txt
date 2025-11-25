@@ -10,3 +10,4 @@ fastapi
 streamlit
 uvicorn
 python-multipart
+Pillow

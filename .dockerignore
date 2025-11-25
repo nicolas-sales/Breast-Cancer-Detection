@@ -37,9 +37,6 @@ dataset/
 test_images/
 val_images/
 
-# Model artifacts
-artifacts/
-
 # Streamlit cache
 .streamlit/
 
