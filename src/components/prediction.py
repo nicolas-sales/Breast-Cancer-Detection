@@ -1,4 +1,5 @@
 import cv2
+import boto3
 import numpy as np
 from tensorflow.keras.models import load_model
 import os
@@ -8,11 +9,52 @@ from src.logger import logging
 from src.exception import CustomException
 
 
+
+def download_model_from_s3(local_path: str):
+    """
+    Télécharge le modèle depuis S3 si non présent localement.
+    Utilise les variables d'environnement :
+      - S3_BUCKET
+      - S3_MODEL_KEY
+    """
+    try:
+        bucket = os.getenv("S3_BUCKET")
+        key = os.getenv("S3_MODEL_KEY")
+
+        if not bucket or not key:
+            raise CustomException(
+                "S3_BUCKET ou S3_MODEL_KEY non définis dans les variables d'environnement",
+                sys
+            )
+
+        logging.info(f"[Predict] Downloading model from S3: s3://{bucket}/{key}")
+
+        os.makedirs(os.path.dirname(local_path), exist_ok=True)
+
+        s3 = boto3.client("s3")
+        s3.download_file(bucket, key, local_path)
+
+        logging.info(f"[Predict] Model downloaded to: {local_path}")
+
+    except Exception as e:
+        raise CustomException(e, sys)
+
+
+
+
 class Predict:
     def __init__(self,model_path:str):
         try:
             logging.info(f"[Predict] Loading model from: {model_path}")
             self.model=load_model(model_path)
+
+        # Si le modèle n'existe pas en local, on le récupère depuis S3
+            if not os.path.exists(model_path):
+                logging.info("[Predict] Model not found locally, downloading from S3")
+                download_model_from_s3(model_path)
+
+            self.model = load_model(model_path)
+            logging.info("[Predict] Model loaded successfully")
         
         except Exception as e:
             raise CustomException(e,sys)

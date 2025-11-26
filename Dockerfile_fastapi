@@ -17,10 +17,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Création du répertoire dans l'image
-RUN mkdir -p /app/artifacts
+# Création du répertoire dans l'image   # Modèle supérieur à 100 Mo, Github ne l'accepte pas
+#RUN mkdir -p /app/artifacts
 # Copie du modèle dans l'image
-COPY artifacts/best_model.keras /app/artifacts/best_model.keras
+#COPY artifacts/best_model.keras /app/artifacts/best_model.keras
+
+# Dossier pour stocker le modèle téléchargé
+RUN mkdir -p /app/artifacts
 
 
 EXPOSE 8000

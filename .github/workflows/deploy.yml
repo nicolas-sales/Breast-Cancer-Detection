@@ -94,7 +94,15 @@ jobs:
          
       - name: Run Docker Image to serve users
         run: |
-         docker run -d -p 8000:8000 --ipc="host" --name=breast-fastapi -e 'AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}' -e 'AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}' -e 'AWS_REGION=${{ secrets.AWS_REGION }}'  ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+         docker run -d -p 8000:8000 \
+         --ipc="host" \
+         --name=breast-fastapi \
+         -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+         -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+         -e AWS_REGION=${{ secrets.AWS_REGION }} \
+         -e S3_BUCKET=breast-cancer-model-nico \                          # A ajouter car modèle stocker dans S3
+         -e S3_MODEL_KEY=best_model.keras \                               # A ajouter car modèle stocker dans S3
+         ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
       
       - name: Clean previous images and containers
         run: |

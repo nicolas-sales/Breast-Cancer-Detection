@@ -11,3 +11,4 @@ streamlit
 uvicorn
 python-multipart
 Pillow
+boto3
