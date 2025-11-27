@@ -13,8 +13,10 @@ docker build -t breast-fastapi -f Dockerfile_fastapi .
 docker run -p 8000:8000 breast-fastapi
 http://localhost:8000/docs
 
+
 EC2:
 
+Installation et demmarge Docker puis ajout de l'utilisateur:
 sudo apt-get update -y
 sudo apt-get upgrade
 curl -fsSL https://get.docker.com -o get-docker.sh
@@ -24,7 +26,7 @@ newgrp docker
 
 ou:
 
-Installatioin Docker:
+Installation Docker:
 Connection SSH à l'instance EC2
 sudo apt update
 sudo apt install -y docker.io
