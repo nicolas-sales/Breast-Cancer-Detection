@@ -13,14 +13,33 @@ from src.exception import CustomException
 
 model_path = "best_model.keras"
 
+# Si le modèle n'existe pas localement -> téléchargement depuis S3
 if not os.path.exists(model_path):
     st.write("⏳ Downloading model from S3...")
-    s3 = boto3.client("s3")
-    BUCKET = "breast-cancer-model-nico"      # bucket
-    KEY = "best_model.keras"                 # fichier S3
 
+    # secrets Streamlit
+    AWS_KEY    = st.secrets["AWS_ACCESS_KEY_ID"]
+    AWS_SECRET = st.secrets["AWS_SECRET_ACCESS_KEY"]
+    AWS_REGION = st.secrets["AWS_REGION"]
+    BUCKET     = st.secrets["AWS_S3_BUCKET"]   
+
+    # Client S3 avec credentials
+    s3 = boto3.client(
+        "s3",
+        aws_access_key_id=AWS_KEY,
+        aws_secret_access_key=AWS_SECRET,
+        region_name=AWS_REGION
+    )
+
+    # Nom du fichier dans S3
+    KEY = "best_model.keras"
+
+    # Téléchargement
     s3.download_file(BUCKET, KEY, model_path)
-    st.success("✅ Model downloaded successfully.")
+
+    st.success("Model downloaded successfully.")
+else:
+    st.info("Model already available locally.")
 
 
 # model_path = "artifacts/best_model.keras"
