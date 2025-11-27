@@ -3,12 +3,27 @@ from PIL import Image
 import numpy as np
 import cv2
 import os
+import boto3
 
 from src.pipeline.prediction_pipeline import PredictionPipeline
 from src.exception import CustomException
 
 
-model_path = "artifacts/best_model.keras"
+# Download model from S3
+
+model_path = "best_model.keras"
+
+if not os.path.exists(model_path):
+    st.write("⏳ Downloading model from S3...")
+    s3 = boto3.client("s3")
+    BUCKET = "breast-cancer-model-nico"      # bucket
+    KEY = "best_model.keras"                 # fichier S3
+
+    s3.download_file(BUCKET, KEY, model_path)
+    st.success("✅ Model downloaded successfully.")
+
+
+# model_path = "artifacts/best_model.keras"
 
 st.set_page_config(page_title="Breast Cancer Detection", layout="centered") # titre de l’onglet du navigateur
 
