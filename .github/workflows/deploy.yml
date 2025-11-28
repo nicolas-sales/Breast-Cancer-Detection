@@ -91,6 +91,14 @@ jobs:
         run: |
          docker stop breast-fastapi || true
          docker rm breast-fastapi || true
+
+
+      - name: DEBUG Image name
+        run: |
+         echo "ECR_LOGIN_URI = '${{ secrets.AWS_ECR_LOGIN_URI }}'"
+         echo "ECR_REPOSITORY_NAME = '${{ secrets.ECR_REPOSITORY_NAME }}'"
+         echo "FULL IMAGE NAME = '${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest'"
+
          
       - name: Run Docker Image to serve users
         run: |
