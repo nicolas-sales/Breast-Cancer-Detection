@@ -59,7 +59,8 @@ jobs:
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
-          docker build -f Dockerfile_fastapi -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .      # -f Dockerfile_fastapi : enlever si juste Dockerfile car le workflow cherche Dockerfile donc pas besoin de le nommer
+          # -f Dockerfile_fastapi : enlever si juste Dockerfile car le workflow cherche Dockerfile donc pas besoin de le nommer
+          docker build -f Dockerfile_fastapi -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .      
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 

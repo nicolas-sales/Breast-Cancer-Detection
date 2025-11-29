@@ -9,7 +9,6 @@ from src.logger import logging
 from src.exception import CustomException
 
 
-
 def download_model_from_s3(local_path: str):
     """
     Télécharge le modèle depuis S3 si non présent localement.
@@ -40,55 +39,52 @@ def download_model_from_s3(local_path: str):
         raise CustomException(e, sys)
 
 
-
-
 class Predict:
-    def __init__(self,model_path:str):
+    def __init__(self, model_path: str):
         try:
-            logging.info(f"[Predict] Loading model from: {model_path}")
-            self.model=load_model(model_path)
+            logging.info(f"[Predict] Initializing model loader with path: {model_path}")
 
-        # Si le modèle n'existe pas en local, on le récupère depuis S3
+            # Vérifier si le modèle existe localement
             if not os.path.exists(model_path):
-                logging.info("[Predict] Model not found locally, downloading from S3")
+                logging.info("[Predict] Model not found locally. Downloading from S3...")
                 download_model_from_s3(model_path)
 
+            # Charger le modèle une fois disponible
+            logging.info(f"[Predict] Loading model from: {model_path}")
             self.model = load_model(model_path)
-            logging.info("[Predict] Model loaded successfully")
-        
-        except Exception as e:
-            raise CustomException(e,sys)
-        
-    def preprocess(self, img_path:str):
+            logging.info("[Predict] Model loaded successfully.")
 
+        except Exception as e:
+            raise CustomException(e, sys)
+
+    def preprocess(self, img_path: str):
         try:
             logging.info(f"[Predict] Preprocessing image: {img_path}")
 
             img = cv2.imread(img_path)
             if img is None:
-                 raise CustomException(f"Cannot read image: {img_path}", sys)
-            
+                raise CustomException(f"Cannot read image: {img_path}", sys)
+
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            img = cv2.resize(img,(224,224))
+            img = cv2.resize(img, (224, 224))
             img = img.astype("float32") / 255.0
-            img = np.expand_dims(img,axis=0) # Shape -> (1,224,224,3)
+            img = np.expand_dims(img, axis=0)  # Shape correct : (1, 224, 224, 3)
 
             return img
-        
+
         except Exception as e:
             raise CustomException(e, sys)
-        
-    def predict(self,img_path:str):
 
+    def predict(self, img_path: str):
         try:
             img = self.preprocess(img_path)
 
-            prob = self.model.predict(img)[0][0]
+            prob = float(self.model.predict(img)[0][0])
             pred = 1 if prob > 0.5 else 0
 
             logging.info(f"[Predict] Prediction: {pred} (prob={prob:.4f})")
 
-            return pred,prob
-        
+            return pred, prob
+
         except Exception as e:
             raise CustomException(e, sys)
