@@ -99,16 +99,23 @@ jobs:
          echo "ECR_REPOSITORY_NAME = '${{ secrets.ECR_REPOSITORY_NAME }}'"
          echo "FULL IMAGE NAME = '${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest'"
 
-         
-      - name: Run Docker Image to serve users
+
+      - name: Run Docker Image
         run: |
-         docker run -d -p 8000:8000 --ipc="host" --name=breast-fastapi \
+         IMAGE="${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest"
+         echo "Running image: $IMAGE"
+
+         docker run -d \
+         -p 8000:8000 \
+         --ipc=host \
+         --name=breast-fastapi \
          -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
          -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
          -e AWS_REGION=${{ secrets.AWS_REGION }} \
-         -e S3_BUCKET=breast-cancer-model-nico \                         
-         -e S3_MODEL_KEY=best_model.keras \                              
-         ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+         -e S3_BUCKET=breast-cancer-model-nico \
+         -e S3_MODEL_KEY=best_model.keras \
+         $IMAGE
+
       
       - name: Clean previous images and containers
         run: |
