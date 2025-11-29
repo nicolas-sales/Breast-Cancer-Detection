@@ -14,8 +14,12 @@ async def predict_image(file: UploadFile = File(...)):
     with open(temp_path, "wb") as f:
         f.write(await file.read())
 
+    # --- Correct model path inside container ---
+    model_path = "/app/artifacts/best_model.keras"
+
     pipeline = PredictionPipeline(
-        model_path="artifacts/best_model.keras",
+        #model_path="artifacts/best_model.keras",
+        model_path=model_path,
         img_path=temp_path
     )
     result = pipeline.run()
