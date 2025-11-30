@@ -1,303 +1,212 @@
-## Breast Cancer Detection – Deep Learning & MLOps Project
+## Breast Cancer Detection – End-to-End Project
 
-- Breast cancer classification from mammography images using a CNN model built with TensorFlow/Keras, deployed through both FastAPI (Docker + AWS) and Streamlit Cloud.
+This repository contains an end-to-end machine learning project for breast cancer detection using deep learning.
+It includes:
 
-- This project covers the full end-to-end ML pipeline + MLOps deployment:
+Data ingestion, preprocessing, and model training (TensorFlow)
 
-- Data ingestion
+FastAPI backend exposing a prediction endpoint
 
-- Data preprocessing & transformation
+Streamlit web application
 
-- Model training (CNN)
+Model storage on AWS S3
 
-- Model evaluation
+Dockerized FastAPI deployment on AWS EC2
 
-- Prediction pipeline
-
-- FastAPI production deployment with Docker & AWS (ECR + EC2)
-
-- Streamlit Cloud interactive web app
+Full CI/CD pipeline with GitHub Actions and Amazon ECR
 
 
-1. Project Objective
-
-The goal is to classify mammogram images into:
-
-0 – Negative (no cancer)
-
-1 – Cancer detected
-
-The trained model achieves:
-
-- Precision ~0.97
-
-- Recall ~0.95
-
-- F1-score ~0.96
-
-- ROC-AUC ~0.992
+1. Project Structure
 
 
-2. Project Structure
-
-
-📁 breast-cancer-detection
+breast-cancer-detection/
 │
-├── app_fastapi.py
-├── app_streamlit.py
+├── app_fastapi.py              # FastAPI backend API (deployed on EC2 + ECR)
+├── app_streamlit.py            # Streamlit web UI (deployed on Streamlit Cloud)
+├── Dockerfile_fastapi          # Dockerfile for FastAPI app
+├── requirements.txt            # Python dependencies
+├── README.md                   # Project documentation
+├── structure.txt               # Notes / quick project structure draft
+├── research.ipynb              # Exploration + model training notebook (local dev)
+├── best_model.keras            # Local copy of trained model (ignored on GitHub if >100MB)
+├── temp_uploaded.jpg           # Temporary image example (dev only)
 │
-├── artifacts/
-│   └── best_model.keras        
+├── .gitignore                  # Git ignore rules
+├── .dockerignore               # Files/folders excluded from Docker build context
 │
-├── test_images/
-│   ├── test_0.jpg
-│   ├── test_1.jpg
-│   └── ...
+├── .github/
+│   └── workflows/
+│       └── deploy.yml          # CI/CD pipeline (build + push to ECR + deploy on EC2)
 │
 ├── src/
-│   ├── logger.py
-│   ├── exception.py
+│   ├── logger.py               # Central logging configuration
+│   ├── exception.py            # Custom exception class
 │   │
-│   ├── components/
-│   │   ├── data_ingestion.py
-│   │   ├── data_transformation.py
-│   │   ├── model_trainer.py
-│   │   ├── model_evaluation.py
-│   │   ├── prediction.py
+│   ├── components/             # Core ML components
+│   │   ├── data_ingestion.py       # Load images + split train/val/test
+│   │   ├── data_transformation.py  # Image normalization + generators
+│   │   ├── model_trainer.py        # CNN model definition + training
+│   │   ├── model_evaluation.py     # Metrics, ROC, confusion matrix
+│   │   └── prediction.py           # Inference + S3 model download
 │   │
-│   ├── pipeline/
+│   └── pipeline/               # Orchestrated pipelines
 │       ├── data_ingestion_pipeline.py
 │       ├── data_transformation_pipeline.py
 │       ├── model_trainer_pipeline.py
 │       ├── model_evaluation_pipeline.py
-│       ├── prediction_pipeline.py
+│       └── prediction_pipeline.py
 │
-├── Dockerfile_fastapi
-├── .dockerignore
-├── requirements.txt
-├── README.md
-├── .gitignore
+├── artifacts/                  # Local artifacts (model, metrics, plots, etc.)
 │
-└── .github/
-    └── workflows/
-        └── deploy.yml
+├── logs/                       # Log files generated during pipelines / API runs
+│
+├── test_images/                # Sample images used to test prediction pipeline
+│
+├── docker/                     # (Optional) Docker-related helper files / scripts
+│
+└── breast_cancer_public_data/  # Raw dataset (Negative / Cancer images)
+    └── ...                     # Often ignored or handled as a submodule
 
 
 
-3. ML Pipeline
+2. Model Storage on AWS S3
 
-- Data Ingestion
+Since the trained model is larger than 100 MB, it cannot be stored on GitHub.
 
-Load all images from dataset
+The model is uploaded to an S3 bucket:
 
-Shuffle
+Bucket name: breast-cancer-model-nico
 
-Train/Validation/Test split
+Model key: best_model.keras
 
-Output: X_train, X_val, X_test, y_train, y_val, y_test
+The model is downloaded at runtime through environment variables:
 
-
-- Data Transformation
-
-Resize to 224×224
-
-Normalize (pixel / 255)
-
-Data augmentation for training
-
-Generate Keras ImageDataGenerators
+S3_BUCKET=breast-cancer-model-nico
+S3_MODEL_KEY=best_model.keras
 
 
-- Model Training
+The FastAPI container fetches the model from S3 on startup.
 
-Custom CNN architecture
+3. FastAPI
 
-Callbacks:
+The prediction endpoint:
 
-EarlyStopping
-
-ModelCheckpoint
-
-Saves the best weights to artifacts/best_model.keras
+POST /predict
 
 
-- Model Evaluation
-
-Computes:
-
-Precision
-
-Recall
-
-F1-score
-
-ROC-AUC
-
-Confusion matrix
-
-ROC curve visualization
-
-
-Outputs saved to:
-
-artifacts/metrics.json
-artifacts/roc_curve.png
-artifacts/confusion_matrix.png
-
-
-Prediction Pipeline
-
-Input: an uploaded mammogram
-Output:
+Send an image (JPEG/PNG).
+The API returns:
 
 {
-  "class": "Negative",
-  "probability": 0.044
+  "class": "Cancer",
+  "probability": 0.873
 }
 
 
-- 4. FastAPI Deployment (Docker + AWS)
-Dockerfile_fastapi includes:
+Swagger documentation is automatically available at:
 
-base Python 3.10
+/docs
 
-system dependencies for OpenCV
+4. Docker Deployment (FastAPI)
 
-application code
+The FastAPI app is containerized using Dockerfile_fastapi.
+The model is not included inside the image; instead, it is downloaded from S3.
 
-automatic download of the Keras model from S3
+To build manually:
 
-Uvicorn server setup
+docker build -f Dockerfile_fastapi -t fastapi-breast .
 
-Build locally:
 
-docker build -f Dockerfile_fastapi -t breast-fastapi .
+To run locally:
 
-Run locally:
+docker run -p 8000:8000 fastapi-breast
 
-docker run -p 8000:8000 breast-fastapi
+5. AWS EC2 Deployment with GitHub Actions
 
-Visit the FastAPI documentation:
-http://localhost:8000/docs
+A self-hosted GitHub Actions runner is installed on an EC2 instance (t2.medium).
+The deployment workflow performs:
 
+Build and push Docker image to Amazon ECR
 
-5. CI/CD with GitHub Actions + AWS (ECR + EC2)
+Connect to EC2 runner
 
-Pipeline steps:
+Pull the latest image
 
-- CI (Continuous Integration)
+Run the container with S3 environment variables
 
-Fetch repository
+The container is launched using:
 
-Lint
+docker run -d -p 8000:8000 \
+  --ipc="host" \
+  --name=breast-fastapi \
+  -e AWS_ACCESS_KEY_ID=... \
+  -e AWS_SECRET_ACCESS_KEY=... \
+  -e AWS_REGION=us-east-1 \
+  -e S3_BUCKET=breast-cancer-model-nico \
+  -e S3_MODEL_KEY=best_model.keras \
+  <ECR_URI>/<REPOSITORY>:latest
 
-Run tests
+6. Streamlit Cloud Deployment
 
-- CD – Build & Push to Amazon ECR
+The Streamlit application downloads the model from S3 using Streamlit secrets:
 
-Build Docker image
+In the Streamlit Cloud dashboard:
 
-Tag image
+Settings → Secrets
 
-Push to ECR registry
+Add:
 
-- Deployment on EC2 (Self-hosted GitHub Runner)
+AWS_ACCESS_KEY_ID="..."
+AWS_SECRET_ACCESS_KEY="..."
+AWS_REGION="us-east-1"
+S3_BUCKET="breast-cancer-model-nico"
+S3_MODEL_KEY="best_model.keras"
 
-Pull latest Docker image
 
-Run container on EC2
+The Streamlit app uses these credentials to pull the model and run inference.
 
-FastAPI becomes publicly accessible
+7. Requirements
 
-- Large model handling
+Key dependencies:
 
-The file best_model.keras is large.
-It is stored in AWS S3 and automatically downloaded at container startup.
+tensorflow
+opencv-python-headless
+fastapi
+uvicorn
+boto3
+numpy
+pillow
+streamlit
 
-Environment variables required:
+8. How to Use the API
 
-AWS_ACCESS_KEY_ID
-AWS_SECRET_ACCESS_KEY
-AWS_REGION
-S3_BUCKET
-S3_KEY
+Example request:
 
+curl -X POST "http://<EC2_PUBLIC_IP>:8000/predict" \
+  -F "file=@image.jpg"
 
-6. Streamlit App (Deployed on Streamlit Cloud)
 
-The Streamlit app provides:
+Example response:
 
-Image upload
+{
+  "class": "Negative",
+  "probability": 0.142
+}
 
-Mammogram preview
+9. Notes
 
-Real-time prediction using the same model
+Ensure port 8000 is open in the EC2 security group.
 
-Automatic model download from S3
+The instance must stay running for the API to be reachable.
 
-Run locally:
+The model must exist in the S3 bucket before deployment.
 
-streamlit run app_streamlit.py
 
-Public app URL:
 
-https://breast-cancer-detection-hcsunwfbr6uqqwhmq6krxm.streamlit.app/
 
 
-7. Example Prediction Output
 
-Class : Negative
-Probability : 0.044
 
-
-8. Local Installation
-
-Install dependencies:
-pip install -r requirements.txt
-
-Run FastAPI:
-uvicorn app_fastapi:app --reload
-
-Run Streamlit:
-streamlit run app_streamlit.py
-
-
-9. Technologies Used
-
-Python 3.10
-
-TensorFlow / Keras
-
-OpenCV
-
-scikit-learn
-
-FastAPI
-
-Streamlit Cloud
-
-Docker
-
-AWS S3 / ECR / EC2
-
-GitHub Actions (CI/CD)
-
-
-10. Conclusion
-
-This project showcases:
-
-complete ML pipeline engineering
-
-model packaging and production deployment
-
-Docker image management
-
-CI/CD with GitHub Actions
-
-cloud deployment (AWS + Streamlit Cloud)
-
-An excellent demonstration of both Deep Learning and MLOps skills.
 
 
 
